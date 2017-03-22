@@ -1,0 +1,7 @@
+﻿  stdafx.cpp
+  AssemblyInfo.cpp
+  Server.cpp
+  ServerForm.cpp
+  .NETFramework,Version=v4.5.2.AssemblyAttributes.cpp
+  Client.vcxproj -> D:\Учеба\8 семестр\Kursach_Client\Server\Debug\Server.exe
+  Client.vcxproj -> D:\Учеба\8 семестр\Kursach_Client\Server\Debug\Server.pdb (Full PDB)
