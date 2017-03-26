@@ -14,6 +14,90 @@ Assembly System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=
 	hash=None, flags=None
 Assembly System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
 	hash=None, flags=None
-Class Client.ClientForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+Class CMD_STRING: AutoLayout, AnsiClass, Class, Public, Abstract, Sealed, BeforeFieldInit
+  Methods:
+    GetCommandString(Int32): PrivateScope, Public, Static, HideBySig
+Class MessageWork: AutoLayout, AnsiClass, Class, Public, Abstract, Sealed, BeforeFieldInit
+  Methods:
+    GetStringFromByte(Byte[], Int32, Int32): PrivateScope, Public, Static, HideBySig
+    GetStringWithLength(String[]): PrivateScope, Public, Static, HideBySig
+    GetDataLength(NetworkStream): PrivateScope, Public, Static, HideBySig
+    GetCmd(NetworkStream): PrivateScope, Public, Static, HideBySig
+    ConvertLogin(String, Int32): PrivateScope, Public, Static, HideBySig
+    ConvertLogin(String): PrivateScope, Public, Static, HideBySig
+    ConvertHash(String): PrivateScope, Public, Static, HideBySig
+    ConvertToStringMessage(String): PrivateScope, Public, Static, HideBySig
+    ConvertBetweenDelimiterString(String, Int32): PrivateScope, Public, Static, HideBySig
+    ConvertBetweenDelimiterString(String): PrivateScope, Public, Static, HideBySig
+    LinkerMessage(Int32): PrivateScope, Public, Static, HideBySig
+    LinkerMessage(Int32, String[]): PrivateScope, Public, Static, HideBySig
+    LinkerMessage(Int32, String, String): PrivateScope, Public, Static, HideBySig
+    LinkerMessage(Int32, String): PrivateScope, Public, Static, HideBySig
+    LinkerMessage(String, String): PrivateScope, Public, Static, HideBySig
+    ComputeLength(String[]): PrivateScope, Public, Static, HideBySig
+    SendMessage(NetworkStream, String): PrivateScope, Public, Static, HideBySig
+    ReadMessage(NetworkStream, Byte[], Int32, Int32): PrivateScope, Public, Static, HideBySig
+Class SafeQueue: AutoLayout, AnsiClass, Class, Public, Abstract, Sealed, BeforeFieldInit
+  Methods:
+    Block(Object): PrivateScope, Public, Static, HideBySig
+    UnBlock(Object): PrivateScope, Public, Static, HideBySig
+Class ProcessException: AutoLayout, AnsiClass, Class, Public, Abstract, Sealed, BeforeFieldInit
+  Methods:
+    MessageException(Exception, String, MethodBase): PrivateScope, Public, Static, HideBySig
+    MessageException(Exception, Type, MethodBase): PrivateScope, Public, Static, HideBySig
+    MessageException(String, String, String, String): PrivateScope, Public, Static, HideBySig
+    MessageException(Exception, String, String): PrivateScope, Public, Static, HideBySig
+    MessageException(Exception, Type, String): PrivateScope, Public, Static, HideBySig
+Class DataInThread: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(System.Net.Sockets.TcpClient, System.Windows.Forms.ListBox): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Methods:
+    ViewBoxItemAdd(String): PrivateScope, Public, HideBySig
+    SafeAddOnlineClientInList(String): PrivateScope, Public, HideBySig
+    ViewBoxItemDelete(Int32): PrivateScope, Public, HideBySig
+    ViewBoxItemDelete(String): PrivateScope, Public, HideBySig
+    SafeViewBoxItemDelete(Int32): PrivateScope, Public, HideBySig
+    SafeViewBoxItemDelete(String): PrivateScope, Public, HideBySig
+    ClientProc(): PrivateScope, Public, HideBySig
+Class ThreadWork: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(Int32, Int32): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(Int32): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Interfaces:
+    System.IDisposable
+  Properties:
+    System.Object SyncRoot 'get ' : 
+    System.Threading.Thread Item [Int32] 'get set' : 
+    Int32 Count 'get ' : 
+  Methods:
+    get_Count(): PrivateScope, Public, HideBySig, SpecialName
+    get_Item(Int32): PrivateScope, Public, HideBySig, SpecialName
+    set_Item(Int32, Thread): PrivateScope, Public, HideBySig, SpecialName
+    get_SyncRoot(): PrivateScope, Public, HideBySig, SpecialName
+    Add(Thread): PrivateScope, Public, HideBySig
+    Clear(): PrivateScope, Public, HideBySig
+    CopyTo(Array, Int32): PrivateScope, Public, HideBySig
+    IndexOf(Thread): PrivateScope, Public, HideBySig
+    Insert(Int32, Thread): PrivateScope, Public, HideBySig
+    Remove(Thread): PrivateScope, Public, HideBySig
+    RemoveAt(Int32): PrivateScope, Public, HideBySig
+    RemoveAll(): PrivateScope, Public, HideBySig
+    CheckAlive(): PrivateScope, Public, HideBySig
+    Dispose(): PrivateScope, Public, Final, Virtual, HideBySig
+Class ScanThread: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(System.Windows.Forms.ListBox): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Interfaces:
+    System.IDisposable
+  Methods:
+    ViewBoxItemAdd(String): PrivateScope, Public, HideBySig
+    SafeAddOnlineClientInList(String): PrivateScope, Public, HideBySig
+    ViewBoxItemDelete(Int32): PrivateScope, Public, HideBySig
+    ViewBoxItemDelete(String): PrivateScope, Public, HideBySig
+    SafeViewBoxItemDelete(Int32): PrivateScope, Public, HideBySig
+    SafeViewBoxItemDelete(String): PrivateScope, Public, HideBySig
+    WriteTextInTextBox(TextBox, String): PrivateScope, Public, HideBySig
+    SafeWriteTextInTextBox(TextBox, String): PrivateScope, Public, HideBySig
+    ClientProc(): PrivateScope, Public, HideBySig
+    Dispose(): PrivateScope, Public, Final, Virtual, HideBySig
+Class Server.ClientForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName

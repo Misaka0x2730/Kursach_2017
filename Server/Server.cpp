@@ -4,9 +4,17 @@
 #include "ServerForm.h"
 
 using namespace System;
+using namespace System::Windows::Forms;
+using namespace Server;
 
+[STAThreadAttribute]
 int main(array<System::String ^> ^args)
 {
-    Console::WriteLine(L"Здравствуй, мир!");
-    return 0;
+	
+	Application::EnableVisualStyles();
+	Application::SetCompatibleTextRenderingDefault(false);
+
+	ClientForm^ server = gcnew ClientForm();
+	Application::Run(server);
+	return 0;
 }
