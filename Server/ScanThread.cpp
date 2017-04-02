@@ -62,6 +62,7 @@ System::Void ScanThread::SafeWriteTextInTextBox(TextBox^ textBox, String^ text)
 System::Void ScanThread::ClientProc(System::Void)
 {
 	UInt32 count_thread = 0;
+	server = gcnew TcpListener(port);
 	server->Start();
 	try
 	{
@@ -73,7 +74,7 @@ System::Void ScanThread::ClientProc(System::Void)
 			{
 				TcpClient^ tcpClient = server->AcceptTcpClient();
 				Thread^ newClient;
-				DataInThread^ data = gcnew DataInThread(tcpClient, onlineList);
+				DataInThread^ data = gcnew DataInThread(tcpClient, onlineList, schedule);
 				newClient = gcnew Thread(gcnew ThreadStart(data, &DataInThread::ClientProc));
 				threadCollection->Add(newClient);
 				newClient->Start();
@@ -88,12 +89,12 @@ System::Void ScanThread::ClientProc(System::Void)
 		threadCollection->RemoveAll();
 		//onlineClientCollection->RemoveAll();
 		//baseRecord->Clear();
+		server->Stop();
 		if(e->ExceptionState != "closeProgram")
 		{
 			Int32 itemsCount = onlineList->Items->Count;
 			for(Int32 i = 0; i < itemsCount; i ++)
 				SafeViewBoxItemDelete(0);
-			server->Stop();
 			//SafeWriteTextInTextBox(countClientBox, "Сервер остановлен");
 			//SafeWriteTextInTextBox(countThreadBox, "Сервер остановлен");
 		}

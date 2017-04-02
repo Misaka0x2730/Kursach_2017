@@ -4,6 +4,8 @@ Assembly Client, Version=1.0.*, Culture=Инвариантный язык (Ин�
 	hash=SHA1, flags=PublicKey
 Assembly mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
 	hash=None, flags=None
+Assembly System.Configuration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: 
+	hash=None, flags=None
 Assembly System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
 	hash=None, flags=None
 Assembly System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
@@ -17,3 +19,37 @@ Assembly System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c5619
 Class Client.ClientForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Methods:
+    AddUpdateSetting(String, String): PrivateScope, Public, HideBySig
+    ReadSetting(String): PrivateScope, Public, HideBySig
+Class CMD_STRING: AutoLayout, AnsiClass, Class, Public, Abstract, Sealed, BeforeFieldInit
+  Methods:
+    GetCommandString(Int32): PrivateScope, Public, Static, HideBySig
+Class MessageAPI: AutoLayout, AnsiClass, Class, Public, Abstract, Sealed, BeforeFieldInit
+  Methods:
+    GetDataLength(NetworkStream): PrivateScope, Public, Static, HideBySig
+    GetCmd(NetworkStream): PrivateScope, Public, Static, HideBySig
+    ConvertLogin(String, Int32): PrivateScope, Public, Static, HideBySig
+    ConvertLogin(String): PrivateScope, Public, Static, HideBySig
+    ConvertHash(String): PrivateScope, Public, Static, HideBySig
+    ConvertToStringMessage(String): PrivateScope, Public, Static, HideBySig
+    ConvertBetweenDelimiterString(String, Int32): PrivateScope, Public, Static, HideBySig
+    ConvertBetweenDelimiterString(String): PrivateScope, Public, Static, HideBySig
+    LinkerMessage(Int32): PrivateScope, Public, Static, HideBySig
+    LinkerMessage(Int32, String[]): PrivateScope, Public, Static, HideBySig
+    LinkerMessage(Int32, String, String): PrivateScope, Public, Static, HideBySig
+    LinkerMessage(Int32, String): PrivateScope, Public, Static, HideBySig
+    LinkerMessage(String, String): PrivateScope, Public, Static, HideBySig
+    ComputeLength(String[]): PrivateScope, Public, Static, HideBySig
+    SendMessage(NetworkStream, String): PrivateScope, Public, Static, HideBySig
+    ReadMessage(NetworkStream, Byte[], Int32, Int32): PrivateScope, Public, Static, HideBySig
+Class PersonalMessageWork: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(System.Net.Sockets.TcpClient): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Interfaces:
+    System.IDisposable
+  Methods:
+    AddUpdateSetting(String, String): PrivateScope, Public, HideBySig
+    ReadSetting(String): PrivateScope, Public, HideBySig
+    ComputeLength(String[]): PrivateScope, Public, HideBySig
+    CentralProcess(): PrivateScope, Public, HideBySig
+    Dispose(): PrivateScope, Public, Final, Virtual, HideBySig

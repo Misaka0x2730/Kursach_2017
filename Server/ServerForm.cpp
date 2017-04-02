@@ -5,7 +5,7 @@ namespace Server
 {
 	System::Void ClientForm::ClientForm_Load(System::Object^  sender, System::EventArgs^  e)
 	{
-		threadScanData = gcnew ScanThread(listBox1);
+		//threadScanData = gcnew ScanThread(listBox1, schedule, Convert::ToInt16(textBox2));
 	}
 
 	System::Void ClientForm::startStopServerButton_Click(System::Object^  sender, System::EventArgs^  e)
@@ -17,6 +17,7 @@ namespace Server
 			{
 				if ((scanThread == nullptr) || (scanThread->IsAlive == false))
 				{
+					threadScanData = gcnew ScanThread(listBox1, schedule, Convert::ToInt16(textBox2->Text));
 					Thread^ currentThread = gcnew Thread(gcnew ThreadStart(threadScanData, &ScanThread::ClientProc));
 					scanThread = currentThread;
 					scanThread->Start();
@@ -28,6 +29,7 @@ namespace Server
 				if ((scanThread != nullptr) && (scanThread->IsAlive == true))
 				{
 					scanThread->Abort();
+					delete threadScanData;
 					isStart = false;
 					button1->Text = L"Сервер остановлен";
 				}
@@ -46,6 +48,17 @@ namespace Server
 			scanThread->Abort("closeProgram");
 		delete threadScanData;
 		this->Close();
+	}
+
+	System::Void ClientForm::button2_Click(System::Object^  sender, System::EventArgs^  e)
+	{
+		if ((listBox1->SelectedIndex != -1) && (schedule->state == false))
+		{
+			schedule->state = true;
+			schedule->dateTime = dateTimePicker1->Value;
+			schedule->ip = Convert::ToString(listBox1->Items[listBox1->SelectedIndex]);
+			schedule->period = Convert::ToInt16(textBox3->Text);
+		}
 	}
 }
 

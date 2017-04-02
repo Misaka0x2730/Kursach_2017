@@ -1,4 +1,4 @@
-﻿  ScanThread.cpp
-ScanThread.cpp(102): warning C4101: e: неиспользованная локальная переменная
+﻿  Server.cpp
+  ServerForm.cpp
   Server.vcxproj -> D:\Учеба\8 семестр\Kursach_2017\Server\Debug\Server.exe
   Server.vcxproj -> D:\Учеба\8 семестр\Kursach_2017\Server\Debug\Server.pdb (Full PDB)

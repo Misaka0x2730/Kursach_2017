@@ -27,11 +27,16 @@ namespace Server {
 		ClientForm(void)
 		{
 			InitializeComponent();
+			schedule = gcnew Schedule();
+			textBox2->Text = "10032";
 			//
 			//TODO: добавьте код конструктора
 			//
 		}
-
+		Schedule^ GetSchedule()
+		{
+			return schedule;
+		}
 	protected:
 		/// <summary>
 		/// Освободить все используемые ресурсы.
@@ -49,19 +54,19 @@ namespace Server {
 	private: System::Windows::Forms::GroupBox^  groupBox1;
 	private: System::Windows::Forms::TextBox^  textBox2;
 	private: System::Windows::Forms::Label^  label3;
-	private: System::Windows::Forms::TextBox^  textBox1;
-	private: System::Windows::Forms::Label^  label2;
+
+
 	private: System::Windows::Forms::Button^  button1;
 	private: System::Windows::Forms::GroupBox^  groupBox2;
 	private: System::Windows::Forms::Button^  button2;
-	private: System::Windows::Forms::ComboBox^  comboBox1;
-	private: System::Windows::Forms::Label^  label5;
+
+
 	private: System::Windows::Forms::TextBox^  textBox3;
 	private: System::Windows::Forms::Label^  label4;
 	private: System::Windows::Forms::DateTimePicker^  dateTimePicker1;
 	private: ScanThread^ threadScanData;
 	private: Thread^ scanThread;
-	private:
+	private: Schedule^ schedule;
 		/// <summary>
 		/// Обязательная переменная конструктора.
 		/// </summary>
@@ -79,13 +84,9 @@ namespace Server {
 			this->groupBox1 = (gcnew System::Windows::Forms::GroupBox());
 			this->textBox2 = (gcnew System::Windows::Forms::TextBox());
 			this->label3 = (gcnew System::Windows::Forms::Label());
-			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
-			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->groupBox2 = (gcnew System::Windows::Forms::GroupBox());
 			this->button2 = (gcnew System::Windows::Forms::Button());
-			this->comboBox1 = (gcnew System::Windows::Forms::ComboBox());
-			this->label5 = (gcnew System::Windows::Forms::Label());
 			this->textBox3 = (gcnew System::Windows::Forms::TextBox());
 			this->label4 = (gcnew System::Windows::Forms::Label());
 			this->dateTimePicker1 = (gcnew System::Windows::Forms::DateTimePicker());
@@ -96,15 +97,15 @@ namespace Server {
 			// listBox1
 			// 
 			this->listBox1->FormattingEnabled = true;
-			this->listBox1->Location = System::Drawing::Point(6, 132);
+			this->listBox1->Location = System::Drawing::Point(6, 81);
 			this->listBox1->Name = L"listBox1";
-			this->listBox1->Size = System::Drawing::Size(127, 147);
+			this->listBox1->Size = System::Drawing::Size(127, 95);
 			this->listBox1->TabIndex = 0;
 			// 
 			// label1
 			// 
 			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(6, 116);
+			this->label1->Location = System::Drawing::Point(16, 65);
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(94, 13);
 			this->label1->TabIndex = 1;
@@ -114,21 +115,19 @@ namespace Server {
 			// 
 			this->groupBox1->Controls->Add(this->textBox2);
 			this->groupBox1->Controls->Add(this->label3);
-			this->groupBox1->Controls->Add(this->textBox1);
-			this->groupBox1->Controls->Add(this->label2);
 			this->groupBox1->Controls->Add(this->button1);
 			this->groupBox1->Controls->Add(this->listBox1);
 			this->groupBox1->Controls->Add(this->label1);
 			this->groupBox1->Location = System::Drawing::Point(12, 12);
 			this->groupBox1->Name = L"groupBox1";
-			this->groupBox1->Size = System::Drawing::Size(139, 318);
+			this->groupBox1->Size = System::Drawing::Size(139, 220);
 			this->groupBox1->TabIndex = 2;
 			this->groupBox1->TabStop = false;
 			this->groupBox1->Text = L"Настройки сервера";
 			// 
 			// textBox2
 			// 
-			this->textBox2->Location = System::Drawing::Point(6, 82);
+			this->textBox2->Location = System::Drawing::Point(19, 32);
 			this->textBox2->Name = L"textBox2";
 			this->textBox2->Size = System::Drawing::Size(100, 20);
 			this->textBox2->TabIndex = 6;
@@ -136,31 +135,15 @@ namespace Server {
 			// label3
 			// 
 			this->label3->AutoSize = true;
-			this->label3->Location = System::Drawing::Point(37, 66);
+			this->label3->Location = System::Drawing::Point(49, 16);
 			this->label3->Name = L"label3";
 			this->label3->Size = System::Drawing::Size(32, 13);
 			this->label3->TabIndex = 5;
 			this->label3->Text = L"Порт";
 			// 
-			// textBox1
-			// 
-			this->textBox1->Location = System::Drawing::Point(6, 32);
-			this->textBox1->Name = L"textBox1";
-			this->textBox1->Size = System::Drawing::Size(100, 20);
-			this->textBox1->TabIndex = 4;
-			// 
-			// label2
-			// 
-			this->label2->AutoSize = true;
-			this->label2->Location = System::Drawing::Point(21, 16);
-			this->label2->Name = L"label2";
-			this->label2->Size = System::Drawing::Size(74, 13);
-			this->label2->TabIndex = 3;
-			this->label2->Text = L"Имя сервера";
-			// 
 			// button1
 			// 
-			this->button1->Location = System::Drawing::Point(6, 285);
+			this->button1->Location = System::Drawing::Point(6, 182);
 			this->button1->Name = L"button1";
 			this->button1->Size = System::Drawing::Size(127, 23);
 			this->button1->TabIndex = 2;
@@ -171,43 +154,25 @@ namespace Server {
 			// groupBox2
 			// 
 			this->groupBox2->Controls->Add(this->button2);
-			this->groupBox2->Controls->Add(this->comboBox1);
-			this->groupBox2->Controls->Add(this->label5);
 			this->groupBox2->Controls->Add(this->textBox3);
 			this->groupBox2->Controls->Add(this->label4);
 			this->groupBox2->Controls->Add(this->dateTimePicker1);
 			this->groupBox2->Location = System::Drawing::Point(157, 12);
 			this->groupBox2->Name = L"groupBox2";
-			this->groupBox2->Size = System::Drawing::Size(235, 171);
+			this->groupBox2->Size = System::Drawing::Size(235, 220);
 			this->groupBox2->TabIndex = 3;
 			this->groupBox2->TabStop = false;
 			this->groupBox2->Text = L"Расписание";
 			// 
 			// button2
 			// 
-			this->button2->Location = System::Drawing::Point(6, 132);
+			this->button2->Location = System::Drawing::Point(6, 182);
 			this->button2->Name = L"button2";
 			this->button2->Size = System::Drawing::Size(212, 23);
 			this->button2->TabIndex = 5;
 			this->button2->Text = L"Отправить расписание";
 			this->button2->UseVisualStyleBackColor = true;
-			// 
-			// comboBox1
-			// 
-			this->comboBox1->FormattingEnabled = true;
-			this->comboBox1->Location = System::Drawing::Point(97, 96);
-			this->comboBox1->Name = L"comboBox1";
-			this->comboBox1->Size = System::Drawing::Size(121, 21);
-			this->comboBox1->TabIndex = 4;
-			// 
-			// label5
-			// 
-			this->label5->AutoSize = true;
-			this->label5->Location = System::Drawing::Point(6, 99);
-			this->label5->Name = L"label5";
-			this->label5->Size = System::Drawing::Size(46, 13);
-			this->label5->TabIndex = 3;
-			this->label5->Text = L"Клиент:";
+			this->button2->Click += gcnew System::EventHandler(this, &ClientForm::button2_Click);
 			// 
 			// textBox3
 			// 
@@ -236,7 +201,7 @@ namespace Server {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(404, 340);
+			this->ClientSize = System::Drawing::Size(401, 243);
 			this->Controls->Add(this->groupBox2);
 			this->Controls->Add(this->groupBox1);
 			this->Name = L"ClientForm";
@@ -255,5 +220,6 @@ namespace Server {
 
 private: System::Void startStopServerButton_Click(System::Object^  sender, System::EventArgs^  e);
 private: System::Void ClientForm_Closing(System::Object^  sender, System::Windows::Forms::FormClosingEventArgs^  e);
+private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e);
 };
 }

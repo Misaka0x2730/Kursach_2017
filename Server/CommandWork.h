@@ -15,7 +15,8 @@ enum CMD: UInt32
 	GetSearchList = 8,
 	SearchList = 9,
 	AddNewFriend = 10,
-	MessageNotDelivered = 11
+	MessageNotDelivered = 11,
+	SendSchedule = 12
 };
 public ref class CMD_STRING abstract sealed
 {
@@ -79,6 +80,11 @@ public:
 				return "11";
 				break;
 			}
+		case CMD::SendSchedule:
+		{
+			return "12";
+			break;
+		}
 		default:
 			return "00";
 			break;

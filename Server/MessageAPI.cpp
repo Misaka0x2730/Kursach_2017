@@ -98,6 +98,8 @@ void MessageWork::SendMessage(NetworkStream^ stream, String^ message)
 }
 String^ MessageWork::ReadMessage(NetworkStream^ stream, array<Byte>^ buffer, Int32 startIndex, Int32 length)
 {
+	if (length <= 0)
+		return String::Empty;
 	Array::Resize(buffer,startIndex+length);
 	return GetStringFromByte(buffer,startIndex,stream->Read(buffer,startIndex,buffer->Length));
 }

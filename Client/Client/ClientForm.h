@@ -13,7 +13,8 @@ namespace Client {
 	using namespace System::Security::Cryptography;
 	using namespace System::Text;
 	using namespace System::Resources;
-
+	using namespace System::Threading;
+	using namespace System::Configuration;
 	/// <summary>
 	/// Сводка для ClientForm
 	/// </summary>
@@ -23,11 +24,41 @@ namespace Client {
 		ClientForm(void)
 		{
 			InitializeComponent();
+			if (ReadSetting("schedule") == String::Empty)
+			{
+				MessageBox::Show("Расписание не получено", "Расписание не получено");
+				label4->Text = "Сеть включена";
+			}
+			else
+			{
+
+			}
 			//
 			//TODO: добавьте код конструктора
 			//
 		}
+		void AddUpdateSetting(String^ key, String^ value)
+		{
+			ConfigurationManager::OpenExeConfiguration(ConfigurationUserLevel::None);
+			System::Configuration::Configuration^ configFile = ConfigurationManager::OpenExeConfiguration(ConfigurationUserLevel::None);
+			System::Configuration::KeyValueConfigurationCollection^ settings = configFile->AppSettings->Settings;
+			if (settings[key] == nullptr)
+				settings->Add(key, value);
+			else
+				settings[key]->Value = value;
 
+			configFile->Save(ConfigurationSaveMode::Modified);
+			ConfigurationManager::RefreshSection(configFile->AppSettings->SectionInformation->Name);
+		}
+		String^ ReadSetting(String^ key)
+		{
+			System::Collections::Specialized::NameValueCollection^ appSettings = ConfigurationManager::AppSettings;
+			String^ value = appSettings[key];
+			if (value == nullptr)
+				return String::Empty;
+			else
+				return value;
+		}
 	protected:
 		/// <summary>
 		/// Освободить все используемые ресурсы.
@@ -41,14 +72,12 @@ namespace Client {
 		}
 	private: System::Windows::Forms::Label^  label1;
 	private: System::Windows::Forms::TextBox^  ipBox;
-
-
 	private: System::Windows::Forms::Label^  label2;
 	private: System::Windows::Forms::TextBox^  portBox;
 	private: System::Windows::Forms::Button^  connectBox;
 	private: System::Windows::Forms::Label^  label3;
 	private: System::Windows::Forms::Label^  label4;
-
+	private: Thread^ newClient;
 
 
 
@@ -152,11 +181,13 @@ namespace Client {
 			this->Controls->Add(this->label1);
 			this->Name = L"ClientForm";
 			this->Text = L"Клиент";
+			this->FormClosing += gcnew System::Windows::Forms::FormClosingEventHandler(this, &ClientForm::clientForm_Closing);
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
 		}
 #pragma endregion
 	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e);
+private: System::Void clientForm_Closing(System::Object^  sender, System::Windows::Forms::FormClosingEventArgs^  e);
 };
 }

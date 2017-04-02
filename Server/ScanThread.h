@@ -29,18 +29,20 @@ private:
     ThreadWork^ threadCollection;
 	TcpListener^ server;
 	ListBox^ onlineList;
+	Schedule^ schedule;
+	System::Int16 port;
 	//TextBox^ countClientBox;
 	//TextBox^ countThreadBox;
 
 public:
-	ScanThread(ListBox^ onlineList)
+	ScanThread(ListBox^ onlineList, Schedule^ schedule, System::Int16 port)
 	{
 		try
 		{
 			threadCollection = gcnew ThreadWork();
-			server = gcnew TcpListener(PORT);
-
 			this->onlineList = onlineList;
+			this->schedule = schedule;
+			this->port = port;
 			//this->countClientBox = countOnlineBox;
 			//this->countThreadBox = countThreadBox;
 		}

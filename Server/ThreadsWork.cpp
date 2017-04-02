@@ -24,7 +24,7 @@ ThreadWork::ThreadWork(Int32 amount, Int32 max)
 }
 ThreadWork::~ThreadWork()
 {
-	RemoveAll();
+	//RemoveAll();
 }
 Int32 ThreadWork::Add(Thread^ thread)
 {

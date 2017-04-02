@@ -48,8 +48,15 @@ Class ProcessException: AutoLayout, AnsiClass, Class, Public, Abstract, Sealed, 
     MessageException(String, String, String, String): PrivateScope, Public, Static, HideBySig
     MessageException(Exception, String, String): PrivateScope, Public, Static, HideBySig
     MessageException(Exception, Type, String): PrivateScope, Public, Static, HideBySig
+Class Schedule: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    System.ValueType dateTime DateTime IsBoxed : Public
+    System.String ip : Public
+    Int16 period : Public
+    Boolean state : Public
 Class DataInThread: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
-    Void .ctor(System.Net.Sockets.TcpClient, System.Windows.Forms.ListBox): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(System.Net.Sockets.TcpClient, System.Windows.Forms.ListBox, Schedule): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
   Methods:
     ViewBoxItemAdd(String): PrivateScope, Public, HideBySig
     SafeAddOnlineClientInList(String): PrivateScope, Public, HideBySig
@@ -57,6 +64,8 @@ Class DataInThread: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
     ViewBoxItemDelete(String): PrivateScope, Public, HideBySig
     SafeViewBoxItemDelete(Int32): PrivateScope, Public, HideBySig
     SafeViewBoxItemDelete(String): PrivateScope, Public, HideBySig
+    GetSchedule(): PrivateScope, Public, HideBySig
+    SafeGetSchedule(): PrivateScope, Public, HideBySig
     ClientProc(): PrivateScope, Public, HideBySig
 Class ThreadWork: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
     Void .ctor(Int32, Int32): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
@@ -84,7 +93,7 @@ Class ThreadWork: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
     CheckAlive(): PrivateScope, Public, HideBySig
     Dispose(): PrivateScope, Public, Final, Virtual, HideBySig
 Class ScanThread: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
-    Void .ctor(System.Windows.Forms.ListBox): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(System.Windows.Forms.ListBox, Schedule, Int16): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
   Interfaces:
     System.IDisposable
   Methods:
@@ -101,3 +110,5 @@ Class ScanThread: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
 Class Server.ClientForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Methods:
+    GetSchedule(): PrivateScope, Public, HideBySig

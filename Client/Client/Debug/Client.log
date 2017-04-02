@@ -1,5 +1,4 @@
 ﻿  Client.cpp
   ClientForm.cpp
-  AssemblyInfo.obj : /DEBUG:FASTLINK не поддерживается, если присутствует управляемый код; выполняется перезапуск компоновки с /DEBUG:FULL
   Client.vcxproj -> D:\Учеба\8 семестр\Kursach_2017\Client\Debug\Client.exe
-  Client.vcxproj -> D:\Учеба\8 семестр\Kursach_2017\Client\Debug\Client.pdb (Partial PDB)
+  Client.vcxproj -> D:\Учеба\8 семестр\Kursach_2017\Client\Debug\Client.pdb (Full PDB)
