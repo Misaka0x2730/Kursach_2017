@@ -24,7 +24,20 @@ namespace Client {
 		ClientForm(void)
 		{
 			InitializeComponent();
-			if (ReadSetting("schedule") == String::Empty)
+			timer1->Interval = 1000;
+			timer1->Enabled = true;
+			networkState = true;
+			timer1_Tick((System::Object^)timer1, nullptr);
+
+			if (ReadSetting("serverIP") == String::Empty)
+				AddUpdateSetting("serverIP", "127.0.0.1");
+
+			if (ReadSetting("serverPort") == String::Empty)
+				AddUpdateSetting("serverPort", "10032");
+	
+			ipBox->Text = ReadSetting("serverIP");
+			portBox->Text = ReadSetting("serverPort");
+			/*if (ReadSetting("schedule") == String::Empty)
 			{
 				MessageBox::Show("Расписание не получено", "Расписание не получено");
 				label4->Text = "Сеть включена";
@@ -32,7 +45,7 @@ namespace Client {
 			else
 			{
 
-			}
+			}*/
 			//
 			//TODO: добавьте код конструктора
 			//
@@ -59,6 +72,21 @@ namespace Client {
 			else
 				return value;
 		}
+		void NetworkChangeState(bool state)
+		{
+			if ((state == true) && (networkState == false))
+			{
+				label4->Text = "Сеть включена";
+				networkState = true;
+				MessageBox::Show("Сеть включена!");
+			}
+			if ((state == false) && (networkState == true))
+			{
+				label4->Text = "Сеть выключена";
+				networkState = false;
+				MessageBox::Show("Сеть выключена!");
+			}
+		}
 	protected:
 		/// <summary>
 		/// Освободить все используемые ресурсы.
@@ -78,16 +106,16 @@ namespace Client {
 	private: System::Windows::Forms::Label^  label3;
 	private: System::Windows::Forms::Label^  label4;
 	private: Thread^ newClient;
-
-
-
+	private: bool networkState;
+	private: System::Windows::Forms::Timer^  timer1;
+	private: System::ComponentModel::IContainer^  components;
 	protected:
 
 	private:
 		/// <summary>
 		/// Обязательная переменная конструктора.
 		/// </summary>
-		System::ComponentModel::Container ^components;
+
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -96,6 +124,7 @@ namespace Client {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			this->components = (gcnew System::ComponentModel::Container());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->ipBox = (gcnew System::Windows::Forms::TextBox());
 			this->label2 = (gcnew System::Windows::Forms::Label());
@@ -103,6 +132,7 @@ namespace Client {
 			this->connectBox = (gcnew System::Windows::Forms::Button());
 			this->label3 = (gcnew System::Windows::Forms::Label());
 			this->label4 = (gcnew System::Windows::Forms::Label());
+			this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
 			this->SuspendLayout();
 			// 
 			// label1
@@ -120,7 +150,6 @@ namespace Client {
 			this->ipBox->Name = L"ipBox";
 			this->ipBox->Size = System::Drawing::Size(100, 20);
 			this->ipBox->TabIndex = 1;
-			this->ipBox->Text = L"127.0.0.1";
 			// 
 			// label2
 			// 
@@ -137,7 +166,6 @@ namespace Client {
 			this->portBox->Name = L"portBox";
 			this->portBox->Size = System::Drawing::Size(100, 20);
 			this->portBox->TabIndex = 3;
-			this->portBox->Text = L"10032";
 			// 
 			// connectBox
 			// 
@@ -167,6 +195,10 @@ namespace Client {
 			this->label4->TabIndex = 6;
 			this->label4->Text = L"Сеть включена";
 			// 
+			// timer1
+			// 
+			this->timer1->Tick += gcnew System::EventHandler(this, &ClientForm::timer1_Tick);
+			// 
 			// ClientForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -189,5 +221,6 @@ namespace Client {
 #pragma endregion
 	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e);
 private: System::Void clientForm_Closing(System::Object^  sender, System::Windows::Forms::FormClosingEventArgs^  e);
+private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e);
 };
 }

@@ -1,10 +1,13 @@
 #include "stdafx.h"
 #include "IMThreadWork.h"
 
-	PersonalMessageWork::PersonalMessageWork(TcpClient^ client)
+namespace Client
+{
+	PersonalMessageWork::PersonalMessageWork(TcpClient^ client, ClientForm^ form)
 	{
 		this->client = client;
 		this->stream = client->GetStream();
+		this->form = form;
 	}
 	PersonalMessageWork::~PersonalMessageWork()
 	{
@@ -18,7 +21,8 @@
 			length += Encoding::ASCII->GetBytes(data[i])->Length;
 		return String::Concat(Convert::ToString(length), DELIMITER_SYMBOL);
 	}
-	void PersonalMessageWork::AddUpdateSetting(String^ key, String^ value)
+
+	/*void PersonalMessageWork::AddUpdateSetting(String^ key, String^ value)
 	{
 		ConfigurationManager::OpenExeConfiguration(ConfigurationUserLevel::None);
 		System::Configuration::Configuration^ configFile = ConfigurationManager::OpenExeConfiguration(ConfigurationUserLevel::None);
@@ -30,28 +34,38 @@
 
 		configFile->Save(ConfigurationSaveMode::Modified);
 		ConfigurationManager::RefreshSection(configFile->AppSettings->SectionInformation->Name);
-	}
+	}*/
+
 	String^ PersonalMessageWork::ReadSetting(String^ key)
 	{
-		System::Collections::Specialized::NameValueCollection^ appSettings = ConfigurationManager::AppSettings;
-		String^ value = appSettings[key];
-		if (value == nullptr)
-			return String::Empty;
+		readSettingsDelegate^ readSettings = gcnew readSettingsDelegate(form, &ClientForm::ReadSetting);
+		if (form->InvokeRequired)
+			return (String^)form->Invoke(readSettings, key);
 		else
-			return value;
+			return (String^)form->ReadSetting(key);
 	}
+
+	void PersonalMessageWork::AddUpdateSetting(String^ key, String^ value)
+	{
+		addUpdateSettingsDelegate^ addUpdateSettings = gcnew addUpdateSettingsDelegate(form, &ClientForm::AddUpdateSetting);
+		if (form->InvokeRequired)
+			form->Invoke(addUpdateSettings, key, value);
+		else
+			form->AddUpdateSetting(key, value);
+	}
+
 	void PersonalMessageWork::CentralProcess(void)
 	{
 		array<String^>^ userList = gcnew array<String^>(5);
 		bool receiveSchedule = false;
 		try
 		{
-			while(1)
+			while (1)
 			{
 				Int32 attempt = 0;
 				String^ message = String::Empty;
-				
-				Thread::Sleep(THREAD_TIMEOUT*10);
+
+				Thread::Sleep(THREAD_TIMEOUT * 5);
 				message = MessageAPI::LinkerMessage(CMD::Sign);
 				if (receiveSchedule == true)
 				{
@@ -64,11 +78,11 @@
 					message = MessageAPI::LinkerMessage(CMD::Sign);
 					stream->Write(Encoding::ASCII->GetBytes(message), 0, Encoding::ASCII->GetBytes(message)->Length);
 				}
-				while(!stream->DataAvailable)
+				while (!stream->DataAvailable)
 				{
 					Thread::Sleep(THREAD_TIMEOUT);
 					attempt++;
-					if(attempt == COUNT_ATTEMPT_READ)
+					if (attempt == COUNT_ATTEMPT_READ)
 					{
 						attempt = 0;
 						MessageBox::Show("Сервер разорвал соединение.");
@@ -79,43 +93,43 @@
 				}
 
 				Int32 dataLength = MessageAPI::GetDataLength(stream);
-				if(dataLength != 0)
+				if (dataLength != 0)
 				{
 					Int32 cmd = MessageAPI::GetCmd(stream);
 					array<Byte>^ responseByte = gcnew array<Byte>(dataLength);
 					String^ receivedString = String::Empty;
-					if(dataLength > (DELIMITER_LENGTH+CMD_LENGTH))
+					if (dataLength > (DELIMITER_LENGTH + CMD_LENGTH))
 					{
-						dataLength -= (DELIMITER_LENGTH+CMD_LENGTH);
-						receivedString = MessageAPI::ReadMessage(stream,responseByte,0,dataLength);
+						dataLength -= (DELIMITER_LENGTH + CMD_LENGTH);
+						receivedString = MessageAPI::ReadMessage(stream, responseByte, 0, dataLength);
 					}
-					switch(cmd)
+					switch (cmd)
 					{
-						case CMD::OK:
-						{
+					case CMD::OK:
+					{
 
-							break;
-						}
-						case CMD::SendSchedule:
-						{
-							String^ dateTimeStr = MessageAPI::ConvertBetweenDelimiterString(receivedString);
-							String^ periodStr = MessageAPI::ConvertBetweenDelimiterString(receivedString, dateTimeStr->Length+1);
-							int period = Convert::ToInt16(periodStr);
-							DateTime^ dateTime = DateTime::Parse(dateTimeStr);
-							receiveSchedule = true;
-							MessageBox::Show("Получено расписание:" + Environment::NewLine + dateTimeStr + " период " + periodStr + " мин", "Получено расписание");
-							AddUpdateSetting("schedule", dateTimeStr);
-							AddUpdateSetting("period", periodStr);
-							break;
-						}
-						default:
-						{
-							return;
-							break;
-						}
+						break;
+					}
+					case CMD::SendSchedule:
+					{
+						String^ dateTimeStr = MessageAPI::ConvertBetweenDelimiterString(receivedString);
+						String^ periodStr = MessageAPI::ConvertBetweenDelimiterString(receivedString, dateTimeStr->Length + 1);
+						int period = Convert::ToInt16(periodStr);
+						DateTime^ dateTime = DateTime::Parse(dateTimeStr);
+						receiveSchedule = true;
+						//MessageBox::Show("Получено расписание:" + Environment::NewLine + dateTimeStr + " период " + periodStr + " мин", "Получено расписание");
+						AddUpdateSetting("schedule", dateTimeStr);
+						AddUpdateSetting("period", periodStr);
+						break;
+					}
+					default:
+					{
+						return;
+						break;
+					}
 					}
 				}
-				else 
+				else
 					throw gcnew Exception("Read few bytes");
 			}
 		}
@@ -123,7 +137,7 @@
 		{
 			return;
 		}
-		catch(Exception^ e)
+		catch (Exception^ e)
 		{
 			MessageBox::Show("Сервер разорвал соединение.");
 			//SafeSetCloseReason();
@@ -135,3 +149,4 @@
 
 		}
 	}
+}

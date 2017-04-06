@@ -1,4 +1,7 @@
 ﻿  Client.cpp
   ClientForm.cpp
+  IMThreadWork.cpp
+IMThreadWork.cpp(136): warning C4101: thAbort: неиспользованная локальная переменная (компилируется исходный файл IMThreadWork.cpp)
+IMThreadWork.cpp(140): warning C4101: e: неиспользованная локальная переменная (компилируется исходный файл IMThreadWork.cpp)
   Client.vcxproj -> D:\Учеба\8 семестр\Kursach_2017\Client\Debug\Client.exe
   Client.vcxproj -> D:\Учеба\8 семестр\Kursach_2017\Client\Debug\Client.pdb (Full PDB)

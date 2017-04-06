@@ -22,6 +22,7 @@ Class Client.ClientForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   Methods:
     AddUpdateSetting(String, String): PrivateScope, Public, HideBySig
     ReadSetting(String): PrivateScope, Public, HideBySig
+    NetworkChangeState(Boolean(HasFieldMarshal)): PrivateScope, Public, HideBySig
 Class CMD_STRING: AutoLayout, AnsiClass, Class, Public, Abstract, Sealed, BeforeFieldInit
   Methods:
     GetCommandString(Int32): PrivateScope, Public, Static, HideBySig
@@ -43,8 +44,8 @@ Class MessageAPI: AutoLayout, AnsiClass, Class, Public, Abstract, Sealed, Before
     ComputeLength(String[]): PrivateScope, Public, Static, HideBySig
     SendMessage(NetworkStream, String): PrivateScope, Public, Static, HideBySig
     ReadMessage(NetworkStream, Byte[], Int32, Int32): PrivateScope, Public, Static, HideBySig
-Class PersonalMessageWork: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
-    Void .ctor(System.Net.Sockets.TcpClient): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+Class Client.PersonalMessageWork: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(System.Net.Sockets.TcpClient, Client.ClientForm): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
   Interfaces:
     System.IDisposable
   Methods:

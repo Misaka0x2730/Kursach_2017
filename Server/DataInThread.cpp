@@ -136,7 +136,8 @@ System::Void DataInThread::ClientProc(System::Void)
 					}
 				case CMD::OK:
 				{
-					MessageBox::Show("ok!");
+					//MessageBox::Show("ok!");
+					MessageWork::SendMessage(stream, MessageWork::LinkerMessage(CMD::OK));
 					break;
 				}
 				default:

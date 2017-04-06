@@ -192,6 +192,8 @@ namespace Server {
 			// 
 			// dateTimePicker1
 			// 
+			this->dateTimePicker1->CustomFormat = L"dd.MM.yyyy hh:mm:ss";
+			this->dateTimePicker1->Format = System::Windows::Forms::DateTimePickerFormat::Custom;
 			this->dateTimePicker1->Location = System::Drawing::Point(6, 29);
 			this->dateTimePicker1->Name = L"dateTimePicker1";
 			this->dateTimePicker1->Size = System::Drawing::Size(212, 20);
