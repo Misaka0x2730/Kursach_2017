@@ -1,5 +1,4 @@
 #pragma once
-#include "ProcessException.h"
 
 #define defaultMaxSize 6
 
@@ -27,7 +26,6 @@ public:
 	ThreadWork(void);
 	ThreadWork(Int32 amount);
 	ThreadWork(Int32 amount, Int32 max);
-	~ThreadWork();
 
 	property Int32 Count
 	{
@@ -65,7 +63,4 @@ public:
 	void RemoveAt(int index);
 	void RemoveAll(void);
 	void CheckAlive(void);
-private:
-	void Block(bool% lock);
-	void UnBlock(bool% lock);
 };

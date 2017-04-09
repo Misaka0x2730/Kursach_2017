@@ -22,10 +22,6 @@ ThreadWork::ThreadWork(Int32 amount, Int32 max)
 	else
 		maxSize = amount;
 }
-ThreadWork::~ThreadWork()
-{
-	//RemoveAll();
-}
 Int32 ThreadWork::Add(Thread^ thread)
 {
 	Int32 position = -1;
@@ -97,16 +93,4 @@ void ThreadWork::CheckAlive(void)
 	for(Int32 i = 0; i < Count; i++)
 		if((collectThread[i] != nullptr)&&(collectThread[i]->IsAlive == false))
 			RemoveAt(i);
-}
-void ThreadWork::Block(bool% lock)
-{
-	Monitor::Enter(SyncRoot,lock);
-}
-void ThreadWork::UnBlock(bool% lock)
-{
-	if(lock)
-	{
-		Monitor::PulseAll(SyncRoot);
-		Monitor::Exit(SyncRoot);
-	}
 }

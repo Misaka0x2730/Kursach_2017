@@ -206,6 +206,7 @@ namespace Server {
 			this->ClientSize = System::Drawing::Size(401, 243);
 			this->Controls->Add(this->groupBox2);
 			this->Controls->Add(this->groupBox1);
+			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedSingle;
 			this->Name = L"ClientForm";
 			this->Text = L"Управление сеансом связи v1.0";
 			this->FormClosing += gcnew System::Windows::Forms::FormClosingEventHandler(this, &ClientForm::ClientForm_Closing);

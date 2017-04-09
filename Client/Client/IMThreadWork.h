@@ -43,28 +43,9 @@ namespace Client
 		ClientForm^ form;
 	public:
 		PersonalMessageWork(TcpClient^ client, ClientForm^ form);
-		~PersonalMessageWork();
 		void AddUpdateSetting(String^ key, String^ value);
 		String^ ReadSetting(String^ key);
-		/*String^ SafeGetLoginMessage();
-		bool SafeGetMessageState();
-		void SafeResetMessageState();
-		void SafeUpdateFriendList(void);
-		void SafeDisplayMessage(String^ login, String^ message);
-		void SafeDisplaySystemMessage(String^ login, String^ message);
-		void SafeCloseForm(void);
-		Int32 SafeGetNewFriendState();
-		void SafeResetNewFriendState();
-		String^ SafeGetNewFriendLogin();
-		void SafeSetCloseReason();
-		bool SafeGetStateSearchList(void);
-		void SafeUpdateSearchList();
-		void SafeResetStateSearchList();
-		String^ SafeGetSearchListText();*/
 		String^ ComputeLength(...array<String^>^ data);
 		void CentralProcess(void);
-	private:
-		//bool GetMessageState();
-		//void ResetMessageState();
 	};
 }

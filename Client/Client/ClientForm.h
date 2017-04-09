@@ -7,6 +7,7 @@ namespace Client {
 	using namespace System::Collections;
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
+	using namespace System::Diagnostics;
 	using namespace System::Drawing;
 	using namespace System::Net;
 	using namespace System::Net::Sockets;
@@ -28,7 +29,9 @@ namespace Client {
 			timer1->Enabled = true;
 			networkState = true;
 			timer1_Tick((System::Object^)timer1, nullptr);
-
+			if(networkState == true)
+				SendCMD("netsh interface set interface name=\"Подключение по локальной сети\" enable");
+			
 			if (ReadSetting("serverIP") == String::Empty)
 				AddUpdateSetting("serverIP", "127.0.0.1");
 
@@ -37,18 +40,6 @@ namespace Client {
 	
 			ipBox->Text = ReadSetting("serverIP");
 			portBox->Text = ReadSetting("serverPort");
-			/*if (ReadSetting("schedule") == String::Empty)
-			{
-				MessageBox::Show("Расписание не получено", "Расписание не получено");
-				label4->Text = "Сеть включена";
-			}
-			else
-			{
-
-			}*/
-			//
-			//TODO: добавьте код конструктора
-			//
 		}
 		void AddUpdateSetting(String^ key, String^ value)
 		{
@@ -78,14 +69,31 @@ namespace Client {
 			{
 				label4->Text = "Сеть включена";
 				networkState = true;
+				SendCMD("netsh interface set interface name=\"Подключение по локальной сети\" enable");
 				MessageBox::Show("Сеть включена!");
 			}
 			if ((state == false) && (networkState == true))
 			{
 				label4->Text = "Сеть выключена";
 				networkState = false;
+				SendCMD("netsh interface set interface name=\"Подключение по локальной сети\" disable");
 				MessageBox::Show("Сеть выключена!");
 			}
+		}
+		void SendCMD(String^ cmd)
+		{
+			ProcessStartInfo^ startInfo = gcnew ProcessStartInfo("cmd.exe");
+			startInfo->Arguments = "/C " + cmd;
+			startInfo->RedirectStandardInput = true;
+			startInfo->RedirectStandardOutput = true;
+			startInfo->RedirectStandardError = true;
+			startInfo->UseShellExecute = false;
+			startInfo->CreateNoWindow = false;
+			startInfo->WindowStyle = ProcessWindowStyle::Hidden;
+
+			Process^ proc = Process::Start(startInfo);
+			if (proc != nullptr)
+				proc->Close();
 		}
 	protected:
 		/// <summary>
@@ -211,6 +219,7 @@ namespace Client {
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->ipBox);
 			this->Controls->Add(this->label1);
+			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedSingle;
 			this->Name = L"ClientForm";
 			this->Text = L"Клиент";
 			this->FormClosing += gcnew System::Windows::Forms::FormClosingEventHandler(this, &ClientForm::clientForm_Closing);
@@ -219,7 +228,7 @@ namespace Client {
 
 		}
 #pragma endregion
-	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e);
+private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e);
 private: System::Void clientForm_Closing(System::Object^  sender, System::Windows::Forms::FormClosingEventArgs^  e);
 private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e);
 };

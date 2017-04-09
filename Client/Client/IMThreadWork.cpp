@@ -9,10 +9,6 @@ namespace Client
 		this->stream = client->GetStream();
 		this->form = form;
 	}
-	PersonalMessageWork::~PersonalMessageWork()
-	{
-
-	}
 
 	String^ PersonalMessageWork::ComputeLength(...array<String^>^ data)
 	{
@@ -21,20 +17,6 @@ namespace Client
 			length += Encoding::ASCII->GetBytes(data[i])->Length;
 		return String::Concat(Convert::ToString(length), DELIMITER_SYMBOL);
 	}
-
-	/*void PersonalMessageWork::AddUpdateSetting(String^ key, String^ value)
-	{
-		ConfigurationManager::OpenExeConfiguration(ConfigurationUserLevel::None);
-		System::Configuration::Configuration^ configFile = ConfigurationManager::OpenExeConfiguration(ConfigurationUserLevel::None);
-		System::Configuration::KeyValueConfigurationCollection^ settings = configFile->AppSettings->Settings;
-		if (settings[key] == nullptr)
-			settings->Add(key, value);
-		else
-			settings[key]->Value = value;
-
-		configFile->Save(ConfigurationSaveMode::Modified);
-		ConfigurationManager::RefreshSection(configFile->AppSettings->SectionInformation->Name);
-	}*/
 
 	String^ PersonalMessageWork::ReadSetting(String^ key)
 	{
@@ -86,8 +68,6 @@ namespace Client
 					{
 						attempt = 0;
 						MessageBox::Show("Сервер разорвал соединение.");
-						//SafeSetCloseReason();
-						//SafeCloseForm();
 						return;
 					}
 				}
@@ -117,7 +97,6 @@ namespace Client
 						int period = Convert::ToInt16(periodStr);
 						DateTime^ dateTime = DateTime::Parse(dateTimeStr);
 						receiveSchedule = true;
-						//MessageBox::Show("Получено расписание:" + Environment::NewLine + dateTimeStr + " период " + periodStr + " мин", "Получено расписание");
 						AddUpdateSetting("schedule", dateTimeStr);
 						AddUpdateSetting("period", periodStr);
 						break;
@@ -140,8 +119,6 @@ namespace Client
 		catch (Exception^ e)
 		{
 			MessageBox::Show("Сервер разорвал соединение.");
-			//SafeSetCloseReason();
-			//SafeCloseForm();
 			return;
 		}
 		finally

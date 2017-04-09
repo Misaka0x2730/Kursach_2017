@@ -2,8 +2,6 @@
 
 #include "TcpParameter.h"
 #include "MessageWork.h"
-#include "SafeQueue.h"
-#include "ProcessException.h"
 
 using namespace System;
 using namespace System::ComponentModel;

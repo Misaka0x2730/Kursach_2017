@@ -1,6 +1,5 @@
 #pragma once
 
-#include "ProcessException.h"
 #include "TcpParameter.h"
 #include "ThreadsWork.h"
 #include "DataInThread.h"
@@ -31,30 +30,18 @@ private:
 	ListBox^ onlineList;
 	Schedule^ schedule;
 	System::Int16 port;
-	//TextBox^ countClientBox;
-	//TextBox^ countThreadBox;
 
 public:
 	ScanThread(ListBox^ onlineList, Schedule^ schedule, System::Int16 port)
 	{
-		try
-		{
-			threadCollection = gcnew ThreadWork();
-			this->onlineList = onlineList;
-			this->schedule = schedule;
-			this->port = port;
-			//this->countClientBox = countOnlineBox;
-			//this->countThreadBox = countThreadBox;
-		}
-		catch(Exception^ e)
-		{
-			ProcessException::MessageException(e,this->GetType(),MethodInfo::GetCurrentMethod());
-		}
+		threadCollection = gcnew ThreadWork();
+		this->onlineList = onlineList;
+		this->schedule = schedule;
+		this->port = port;
 	}
 	~ScanThread()
 	{
 		delete threadCollection;
-		//delete baseRecord;
 	}
 	void ViewBoxItemAdd(String^ text);
 	void SafeAddOnlineClientInList(String^ text);

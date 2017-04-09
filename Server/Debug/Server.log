@@ -1,4 +1,11 @@
-﻿  Server.cpp
+﻿  stdafx.cpp
+  AssemblyInfo.cpp
+  DataInThread.cpp
+  MessageAPI.cpp
+  ScanThread.cpp
+  Server.cpp
   ServerForm.cpp
+  ThreadsWork.cpp
+  .NETFramework,Version=v4.5.2.AssemblyAttributes.cpp
   Server.vcxproj -> D:\Учеба\8 семестр\Kursach_2017\Server\Debug\Server.exe
   Server.vcxproj -> D:\Учеба\8 семестр\Kursach_2017\Server\Debug\Server.pdb (Full PDB)

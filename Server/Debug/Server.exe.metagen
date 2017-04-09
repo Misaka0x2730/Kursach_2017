@@ -23,31 +23,11 @@ Class MessageWork: AutoLayout, AnsiClass, Class, Public, Abstract, Sealed, Befor
     GetStringWithLength(String[]): PrivateScope, Public, Static, HideBySig
     GetDataLength(NetworkStream): PrivateScope, Public, Static, HideBySig
     GetCmd(NetworkStream): PrivateScope, Public, Static, HideBySig
-    ConvertLogin(String, Int32): PrivateScope, Public, Static, HideBySig
-    ConvertLogin(String): PrivateScope, Public, Static, HideBySig
-    ConvertHash(String): PrivateScope, Public, Static, HideBySig
-    ConvertToStringMessage(String): PrivateScope, Public, Static, HideBySig
-    ConvertBetweenDelimiterString(String, Int32): PrivateScope, Public, Static, HideBySig
-    ConvertBetweenDelimiterString(String): PrivateScope, Public, Static, HideBySig
     LinkerMessage(Int32): PrivateScope, Public, Static, HideBySig
-    LinkerMessage(Int32, String[]): PrivateScope, Public, Static, HideBySig
-    LinkerMessage(Int32, String, String): PrivateScope, Public, Static, HideBySig
     LinkerMessage(Int32, String): PrivateScope, Public, Static, HideBySig
-    LinkerMessage(String, String): PrivateScope, Public, Static, HideBySig
     ComputeLength(String[]): PrivateScope, Public, Static, HideBySig
     SendMessage(NetworkStream, String): PrivateScope, Public, Static, HideBySig
     ReadMessage(NetworkStream, Byte[], Int32, Int32): PrivateScope, Public, Static, HideBySig
-Class SafeQueue: AutoLayout, AnsiClass, Class, Public, Abstract, Sealed, BeforeFieldInit
-  Methods:
-    Block(Object): PrivateScope, Public, Static, HideBySig
-    UnBlock(Object): PrivateScope, Public, Static, HideBySig
-Class ProcessException: AutoLayout, AnsiClass, Class, Public, Abstract, Sealed, BeforeFieldInit
-  Methods:
-    MessageException(Exception, String, MethodBase): PrivateScope, Public, Static, HideBySig
-    MessageException(Exception, Type, MethodBase): PrivateScope, Public, Static, HideBySig
-    MessageException(String, String, String, String): PrivateScope, Public, Static, HideBySig
-    MessageException(Exception, String, String): PrivateScope, Public, Static, HideBySig
-    MessageException(Exception, Type, String): PrivateScope, Public, Static, HideBySig
 Class Schedule: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
   Fields:
@@ -71,8 +51,6 @@ Class ThreadWork: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
     Void .ctor(Int32, Int32): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
     Void .ctor(Int32): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
-  Interfaces:
-    System.IDisposable
   Properties:
     System.Object SyncRoot 'get ' : 
     System.Threading.Thread Item [Int32] 'get set' : 
@@ -91,7 +69,6 @@ Class ThreadWork: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
     RemoveAt(Int32): PrivateScope, Public, HideBySig
     RemoveAll(): PrivateScope, Public, HideBySig
     CheckAlive(): PrivateScope, Public, HideBySig
-    Dispose(): PrivateScope, Public, Final, Virtual, HideBySig
 Class ScanThread: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
     Void .ctor(System.Windows.Forms.ListBox, Schedule, Int16): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
   Interfaces:

@@ -3,9 +3,6 @@
 
 void ScanThread::ViewBoxItemAdd(String^ text)
 {
-	//ListViewItem^ item;
-	//item = gcnew ListViewItem(text,0);
-	
 	onlineList->Items->Add(text);
 }
 void ScanThread::SafeAddOnlineClientInList(String^ text)
@@ -35,7 +32,6 @@ void ScanThread::SafeViewBoxItemDelete(String^ text)
 void ScanThread::ViewBoxItemDelete(Int32 index)
 {
 	onlineList->Items->RemoveAt(index);		
-	//onlineList->ItemDelete(index);
 }
 void ScanThread::SafeViewBoxItemDelete(Int32 index)
 {
@@ -79,28 +75,21 @@ System::Void ScanThread::ClientProc(System::Void)
 				threadCollection->Add(newClient);
 				newClient->Start();
 			}
-			//SafeWriteTextInTextBox(countClientBox, Convert::ToString(onlineClientCollection->Count));
-			//SafeWriteTextInTextBox(countThreadBox, Convert::ToString(threadCollection->Count));
-			
 		}
 	}
 	catch(ThreadAbortException^ e)
 	{
 		threadCollection->RemoveAll();
-		//onlineClientCollection->RemoveAll();
-		//baseRecord->Clear();
 		server->Stop();
 		if(e->ExceptionState != "closeProgram")
 		{
 			Int32 itemsCount = onlineList->Items->Count;
 			for(Int32 i = 0; i < itemsCount; i ++)
 				SafeViewBoxItemDelete(0);
-			//SafeWriteTextInTextBox(countClientBox, "Сервер остановлен");
-			//SafeWriteTextInTextBox(countThreadBox, "Сервер остановлен");
 		}
 		return;
 	}
-	catch(Exception^ e)
+	catch(Exception^ )
 	{
 		server->Stop();
 		return;

@@ -33,11 +33,9 @@ namespace Server
 					isStart = false;
 					button1->Text = L"Сервер остановлен";
 				}
-
 		}
-		catch (Exception^ e)
+		catch (Exception^ )
 		{
-			ProcessException::MessageException(e, this->GetType(), MethodInfo::GetCurrentMethod());
 			return;
 		}
 	}
@@ -52,12 +50,17 @@ namespace Server
 
 	System::Void ClientForm::button2_Click(System::Object^  sender, System::EventArgs^  e)
 	{
-		if ((listBox1->SelectedIndex != -1) && (schedule->state == false))
+		Int16 period = 0;
+		if ((listBox1->SelectedIndex != -1) && (schedule->state == false) && 
+		   (Int16::TryParse(textBox3->Text, period) == true))
 		{
-			schedule->state = true;
-			schedule->dateTime = dateTimePicker1->Value;
-			schedule->ip = Convert::ToString(listBox1->Items[listBox1->SelectedIndex]);
-			schedule->period = Convert::ToInt16(textBox3->Text);
+			if (period < 2880)
+			{
+				schedule->state = true;
+				schedule->dateTime = dateTimePicker1->Value;
+				schedule->ip = Convert::ToString(listBox1->Items[listBox1->SelectedIndex]);
+				schedule->period = period;
+			}
 		}
 	}
 }

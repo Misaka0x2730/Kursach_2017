@@ -146,8 +146,6 @@
     <ClInclude Include="CommandWork.h" />
     <ClInclude Include="DataInThread.h" />
     <ClInclude Include="MessageWork.h" />
-    <ClInclude Include="ProcessException.h" />
-    <ClInclude Include="SafeQueue.h" />
     <ClInclude Include="ScanThread.h" />
     <ClInclude Include="ServerForm.h">
       <FileType>CppForm</FileType>
@@ -164,8 +162,6 @@
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="DataInThread.cpp" />
     <ClCompile Include="MessageAPI.cpp" />
-    <ClCompile Include="ProcessException.cpp" />
-    <ClCompile Include="SafeQueue.cpp" />
     <ClCompile Include="ScanThread.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="ServerForm.cpp" />
