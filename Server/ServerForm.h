@@ -17,6 +17,8 @@ namespace Server {
 	using namespace System::Security::Cryptography;
 	using namespace System::Media;
 	using namespace System::Reflection;
+	using namespace System::Resources;
+	using namespace System::Configuration;
 
 	/// <summary>
 	/// Сводка для ClientForm
@@ -37,6 +39,31 @@ namespace Server {
 		{
 			return schedule;
 		}
+
+		void AddUpdateSetting(String^ key, String^ value)
+		{
+			ConfigurationManager::OpenExeConfiguration(ConfigurationUserLevel::None);
+			System::Configuration::Configuration^ configFile = ConfigurationManager::OpenExeConfiguration(ConfigurationUserLevel::None);
+			System::Configuration::KeyValueConfigurationCollection^ settings = configFile->AppSettings->Settings;
+			if (settings[key] == nullptr)
+				settings->Add(key, value);
+			else
+				settings[key]->Value = value;
+
+			configFile->Save(ConfigurationSaveMode::Modified);
+			ConfigurationManager::RefreshSection(configFile->AppSettings->SectionInformation->Name);
+		}
+
+		String^ ReadSetting(String^ key)
+		{
+			System::Collections::Specialized::NameValueCollection^ appSettings = ConfigurationManager::AppSettings;
+			String^ value = appSettings[key];
+			if (value == nullptr)
+				return nullptr;
+			else
+				return value;
+		}
+
 	protected:
 		/// <summary>
 		/// Освободить все используемые ресурсы.
@@ -67,7 +94,9 @@ namespace Server {
 	private: ScanThread^ threadScanData;
 	private: Thread^ scanThread;
 	private: Schedule^ schedule;
-		/// <summary>
+	private: System::Windows::Forms::Button^  button3;
+	private: System::Windows::Forms::TextBox^  textBox1;
+			 /// <summary>
 		/// Обязательная переменная конструктора.
 		/// </summary>
 		System::ComponentModel::Container ^components;
@@ -86,10 +115,12 @@ namespace Server {
 			this->label3 = (gcnew System::Windows::Forms::Label());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->groupBox2 = (gcnew System::Windows::Forms::GroupBox());
+			this->button3 = (gcnew System::Windows::Forms::Button());
 			this->button2 = (gcnew System::Windows::Forms::Button());
 			this->textBox3 = (gcnew System::Windows::Forms::TextBox());
 			this->label4 = (gcnew System::Windows::Forms::Label());
 			this->dateTimePicker1 = (gcnew System::Windows::Forms::DateTimePicker());
+			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 			this->groupBox1->SuspendLayout();
 			this->groupBox2->SuspendLayout();
 			this->SuspendLayout();
@@ -101,6 +132,7 @@ namespace Server {
 			this->listBox1->Name = L"listBox1";
 			this->listBox1->Size = System::Drawing::Size(127, 95);
 			this->listBox1->TabIndex = 0;
+			this->listBox1->SelectedIndexChanged += gcnew System::EventHandler(this, &ClientForm::listBox1_SelectedIndexChanged);
 			// 
 			// label1
 			// 
@@ -153,6 +185,7 @@ namespace Server {
 			// 
 			// groupBox2
 			// 
+			this->groupBox2->Controls->Add(this->button3);
 			this->groupBox2->Controls->Add(this->button2);
 			this->groupBox2->Controls->Add(this->textBox3);
 			this->groupBox2->Controls->Add(this->label4);
@@ -164,13 +197,23 @@ namespace Server {
 			this->groupBox2->TabStop = false;
 			this->groupBox2->Text = L"Расписание";
 			// 
+			// button3
+			// 
+			this->button3->Location = System::Drawing::Point(6, 182);
+			this->button3->Name = L"button3";
+			this->button3->Size = System::Drawing::Size(212, 23);
+			this->button3->TabIndex = 6;
+			this->button3->Text = L"Отправить расписание";
+			this->button3->UseVisualStyleBackColor = true;
+			this->button3->Click += gcnew System::EventHandler(this, &ClientForm::button3_Click);
+			// 
 			// button2
 			// 
-			this->button2->Location = System::Drawing::Point(6, 182);
+			this->button2->Location = System::Drawing::Point(6, 153);
 			this->button2->Name = L"button2";
 			this->button2->Size = System::Drawing::Size(212, 23);
 			this->button2->TabIndex = 5;
-			this->button2->Text = L"Отправить расписание";
+			this->button2->Text = L"Сохранить расписание";
 			this->button2->UseVisualStyleBackColor = true;
 			this->button2->Click += gcnew System::EventHandler(this, &ClientForm::button2_Click);
 			// 
@@ -199,11 +242,21 @@ namespace Server {
 			this->dateTimePicker1->Size = System::Drawing::Size(212, 20);
 			this->dateTimePicker1->TabIndex = 0;
 			// 
+			// textBox1
+			// 
+			this->textBox1->Location = System::Drawing::Point(398, 12);
+			this->textBox1->Multiline = true;
+			this->textBox1->Name = L"textBox1";
+			this->textBox1->ScrollBars = System::Windows::Forms::ScrollBars::Vertical;
+			this->textBox1->Size = System::Drawing::Size(206, 220);
+			this->textBox1->TabIndex = 4;
+			// 
 			// ClientForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(401, 243);
+			this->ClientSize = System::Drawing::Size(642, 252);
+			this->Controls->Add(this->textBox1);
 			this->Controls->Add(this->groupBox2);
 			this->Controls->Add(this->groupBox1);
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedSingle;
@@ -216,6 +269,7 @@ namespace Server {
 			this->groupBox2->ResumeLayout(false);
 			this->groupBox2->PerformLayout();
 			this->ResumeLayout(false);
+			this->PerformLayout();
 
 		}
 #pragma endregion
@@ -224,5 +278,7 @@ namespace Server {
 private: System::Void startStopServerButton_Click(System::Object^  sender, System::EventArgs^  e);
 private: System::Void ClientForm_Closing(System::Object^  sender, System::Windows::Forms::FormClosingEventArgs^  e);
 private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e);
+private: System::Void button3_Click(System::Object^  sender, System::EventArgs^  e);
+private: System::Void listBox1_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e);
 };
 }

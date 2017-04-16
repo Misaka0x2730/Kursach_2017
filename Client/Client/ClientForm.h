@@ -28,9 +28,10 @@ namespace Client {
 			timer1->Interval = 1000;
 			timer1->Enabled = true;
 			networkState = true;
+			nameOfConnect->Text = "Подключение по локальной сети";
 			timer1_Tick((System::Object^)timer1, nullptr);
 			if(networkState == true)
-				SendCMD("netsh interface set interface name=\"Подключение по локальной сети\" enable");
+				SendCMD("netsh interface set interface name=\"" + nameOfConnect->Text + "\" enable");
 			
 			if (ReadSetting("serverIP") == String::Empty)
 				AddUpdateSetting("serverIP", "127.0.0.1");
@@ -59,7 +60,7 @@ namespace Client {
 			System::Collections::Specialized::NameValueCollection^ appSettings = ConfigurationManager::AppSettings;
 			String^ value = appSettings[key];
 			if (value == nullptr)
-				return String::Empty;
+				return nullptr;
 			else
 				return value;
 		}
@@ -69,14 +70,15 @@ namespace Client {
 			{
 				label4->Text = "Сеть включена";
 				networkState = true;
-				SendCMD("netsh interface set interface name=\"Подключение по локальной сети\" enable");
+				SendCMD("netsh interface set interface name=\"" + nameOfConnect->Text + "\" enable");
+				button1_Click((System::Object^)connectBox, nullptr);
 				MessageBox::Show("Сеть включена!");
 			}
 			if ((state == false) && (networkState == true))
 			{
 				label4->Text = "Сеть выключена";
 				networkState = false;
-				SendCMD("netsh interface set interface name=\"Подключение по локальной сети\" disable");
+				SendCMD("netsh interface set interface name=\"" + nameOfConnect->Text + "\" disable");
 				MessageBox::Show("Сеть выключена!");
 			}
 		}
@@ -116,6 +118,9 @@ namespace Client {
 	private: Thread^ newClient;
 	private: bool networkState;
 	private: System::Windows::Forms::Timer^  timer1;
+	private: System::Windows::Forms::Label^  label5;
+	private: System::Windows::Forms::TextBox^  nameOfConnect;
+
 	private: System::ComponentModel::IContainer^  components;
 	protected:
 
@@ -141,6 +146,8 @@ namespace Client {
 			this->label3 = (gcnew System::Windows::Forms::Label());
 			this->label4 = (gcnew System::Windows::Forms::Label());
 			this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
+			this->label5 = (gcnew System::Windows::Forms::Label());
+			this->nameOfConnect = (gcnew System::Windows::Forms::TextBox());
 			this->SuspendLayout();
 			// 
 			// label1
@@ -177,7 +184,7 @@ namespace Client {
 			// 
 			// connectBox
 			// 
-			this->connectBox->Location = System::Drawing::Point(15, 107);
+			this->connectBox->Location = System::Drawing::Point(15, 167);
 			this->connectBox->Name = L"connectBox";
 			this->connectBox->Size = System::Drawing::Size(100, 23);
 			this->connectBox->TabIndex = 4;
@@ -188,7 +195,7 @@ namespace Client {
 			// label3
 			// 
 			this->label3->AutoSize = true;
-			this->label3->Location = System::Drawing::Point(12, 161);
+			this->label3->Location = System::Drawing::Point(12, 209);
 			this->label3->Name = L"label3";
 			this->label3->Size = System::Drawing::Size(108, 13);
 			this->label3->TabIndex = 5;
@@ -197,7 +204,7 @@ namespace Client {
 			// label4
 			// 
 			this->label4->AutoSize = true;
-			this->label4->Location = System::Drawing::Point(126, 161);
+			this->label4->Location = System::Drawing::Point(126, 209);
 			this->label4->Name = L"label4";
 			this->label4->Size = System::Drawing::Size(83, 13);
 			this->label4->TabIndex = 6;
@@ -207,11 +214,29 @@ namespace Client {
 			// 
 			this->timer1->Tick += gcnew System::EventHandler(this, &ClientForm::timer1_Tick);
 			// 
+			// label5
+			// 
+			this->label5->AutoSize = true;
+			this->label5->Location = System::Drawing::Point(12, 113);
+			this->label5->Name = L"label5";
+			this->label5->Size = System::Drawing::Size(130, 13);
+			this->label5->TabIndex = 7;
+			this->label5->Text = L"Название подключения:";
+			// 
+			// nameOfConnect
+			// 
+			this->nameOfConnect->Location = System::Drawing::Point(15, 129);
+			this->nameOfConnect->Name = L"nameOfConnect";
+			this->nameOfConnect->Size = System::Drawing::Size(151, 20);
+			this->nameOfConnect->TabIndex = 8;
+			// 
 			// ClientForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(237, 196);
+			this->ClientSize = System::Drawing::Size(243, 243);
+			this->Controls->Add(this->nameOfConnect);
+			this->Controls->Add(this->label5);
 			this->Controls->Add(this->label4);
 			this->Controls->Add(this->label3);
 			this->Controls->Add(this->connectBox);

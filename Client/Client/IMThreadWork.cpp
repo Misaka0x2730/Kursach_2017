@@ -92,13 +92,18 @@ namespace Client
 					}
 					case CMD::SendSchedule:
 					{
-						String^ dateTimeStr = MessageAPI::ConvertBetweenDelimiterString(receivedString);
-						String^ periodStr = MessageAPI::ConvertBetweenDelimiterString(receivedString, dateTimeStr->Length + 1);
-						int period = Convert::ToInt16(periodStr);
-						DateTime^ dateTime = DateTime::Parse(dateTimeStr);
+						String^ dateTimeStr = String::Empty;
+						String^ periodStr = String::Empty;
+						for (int i = 0;  (receivedString->Length != 1); i++)
+						{
+							dateTimeStr = MessageAPI::ConvertBetweenDelimiterString(receivedString);
+							periodStr = MessageAPI::ConvertBetweenDelimiterString(receivedString, dateTimeStr->Length + 1);
+							receivedString = receivedString->Substring(dateTimeStr->Length + periodStr->Length + 2, receivedString->Length - dateTimeStr->Length - periodStr->Length - 2);
+							AddUpdateSetting("schedule" + Convert::ToString(i), dateTimeStr);
+							AddUpdateSetting("period"   + Convert::ToString(i), periodStr);
+							AddUpdateSetting("receivedSchedule", "1");
+						}
 						receiveSchedule = true;
-						AddUpdateSetting("schedule", dateTimeStr);
-						AddUpdateSetting("period", periodStr);
 						break;
 					}
 					default:

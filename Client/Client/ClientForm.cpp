@@ -42,26 +42,46 @@ namespace Client
 
 	System::Void ClientForm::timer1_Tick(System::Object^  sender, System::EventArgs^  e)
 	{
-		String^ scheduleStr = ReadSetting("schedule");
-		String^ periodStr = ReadSetting("period");
-		if ((ReadSetting("schedule") != String::Empty) && (ReadSetting("period") != String::Empty))
+		DateTime^ nowDateTime = DateTime::Now;
+		DateTime^ schedule;
+		bool networkState = true;
+		bool scheduleLast = false;
+		for (int i = 0; ReadSetting("schedule" + Convert::ToString(i)) != nullptr; i++)
 		{
-			DateTime^ nowDateTime = DateTime::Now;
-			DateTime^ schedule = DateTime::Parse(scheduleStr);
-			if ((nowDateTime->CompareTo(schedule) > 0) && 
-				(nowDateTime->CompareTo(schedule->AddMinutes(Convert::ToInt16(periodStr))) < 0))
+			if ((ReadSetting("period" + Convert::ToString(i)) == String::Empty) || (ReadSetting("schedule" + Convert::ToString(i)) == String::Empty))
+				continue;
+			
+			schedule = DateTime::Parse(ReadSetting("schedule" + Convert::ToString(i)));
+
+			if ((nowDateTime->CompareTo(schedule) > 0) &&
+				(nowDateTime->CompareTo(schedule->AddMinutes(Convert::ToInt16(ReadSetting("period" + Convert::ToString(i))))) < 0))
 			{
 				NetworkChangeState(false);
+				networkState = false;
+				//break;
 			}
 			else
 			{
-				NetworkChangeState(true);
-				if (nowDateTime->CompareTo(schedule->AddMinutes(Convert::ToInt16(periodStr))) > 0)
+				if (nowDateTime->CompareTo(schedule->AddMinutes(Convert::ToInt16(ReadSetting("period" + Convert::ToString(i))))) > 0)
 				{
-					AddUpdateSetting("schedule", String::Empty);
-					AddUpdateSetting("period", String::Empty);
+					if ((ReadSetting("receivedSchedule") != nullptr) && (ReadSetting("receivedSchedule") == "1"))
+					{
+						scheduleLast = true;
+						AddUpdateSetting("receivedSchedule", "0");
+					}
+					AddUpdateSetting("schedule" + Convert::ToString(i), String::Empty);
+					AddUpdateSetting("period" + Convert::ToString(i), String::Empty);
 				}
 			}
+
+		}
+		if (scheduleLast == true)
+		{
+			//MessageBox::Show("Получено устаревшее расписание");
+		}
+		if (networkState == true)
+		{
+			NetworkChangeState(true);
 		}
 	}
 }
