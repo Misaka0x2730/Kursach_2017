@@ -46,11 +46,14 @@ namespace Client
 		DateTime^ schedule;
 		bool networkState = true;
 		bool scheduleLast = false;
+		bool scheduleIsAccept = false;
+		bool scheduleFlag = true;
 		for (int i = 0; ReadSetting("schedule" + Convert::ToString(i)) != nullptr; i++)
 		{
 			if ((ReadSetting("period" + Convert::ToString(i)) == String::Empty) || (ReadSetting("schedule" + Convert::ToString(i)) == String::Empty))
 				continue;
 			
+			scheduleIsAccept = true;
 			schedule = DateTime::Parse(ReadSetting("schedule" + Convert::ToString(i)));
 
 			if ((nowDateTime->CompareTo(schedule) > 0) &&
@@ -64,21 +67,33 @@ namespace Client
 			{
 				if (nowDateTime->CompareTo(schedule->AddMinutes(Convert::ToInt16(ReadSetting("period" + Convert::ToString(i))))) > 0)
 				{
-					if ((ReadSetting("receivedSchedule") != nullptr) && (ReadSetting("receivedSchedule") == "1"))
+					/*if ((ReadSetting("receivedSchedule") != nullptr) && (ReadSetting("receivedSchedule") == "1"))
 					{
 						scheduleLast = true;
 						AddUpdateSetting("receivedSchedule", "0");
-					}
+						MessageBox::Show("Получено расписание!");
+					}*/
 					AddUpdateSetting("schedule" + Convert::ToString(i), String::Empty);
 					AddUpdateSetting("period" + Convert::ToString(i), String::Empty);
 				}
 			}
 
 		}
-		if (scheduleLast == true)
+		if ((ReadSetting("receivedSchedule") != nullptr) && (ReadSetting("receivedSchedule") == "1"))
+		{
+			scheduleLast = true;
+			AddUpdateSetting("receivedSchedule", "0");
+			MessageBox::Show("Получено расписание!");
+		}
+		/*if (scheduleLast == true)
 		{
 			//MessageBox::Show("Получено устаревшее расписание");
-		}
+		}*/
+		/*if((scheduleIsAccept == false) && (scheduleFlag == true))
+		{
+			//MessageBox::Show("Расписания нет!");
+			//scheduleFlag = false;
+		}*/
 		if (networkState == true)
 		{
 			NetworkChangeState(true);

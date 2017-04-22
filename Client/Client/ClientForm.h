@@ -33,10 +33,10 @@ namespace Client {
 			if(networkState == true)
 				SendCMD("netsh interface set interface name=\"" + nameOfConnect->Text + "\" enable");
 			
-			if (ReadSetting("serverIP") == String::Empty)
+			if ((ReadSetting("serverIP") == String::Empty) || (ReadSetting("serverIP") == nullptr))
 				AddUpdateSetting("serverIP", "127.0.0.1");
 
-			if (ReadSetting("serverPort") == String::Empty)
+			if ((ReadSetting("serverPort") == String::Empty) || (ReadSetting("serverPort") == nullptr))
 				AddUpdateSetting("serverPort", "10032");
 	
 			ipBox->Text = ReadSetting("serverIP");

@@ -56,21 +56,32 @@ namespace Server
 		{
 			if (period < 2880)
 			{
-				if (File::Exists(Convert::ToString(listBox1->Items[listBox1->SelectedIndex]) + ".txt") == false)
+				/*if (File::Exists(Convert::ToString(listBox1->Items[listBox1->SelectedIndex]) + ".txt") == false)
 				{
-					StreamWriter^ writeFile = gcnew StreamWriter(Convert::ToString(listBox1->Items[listBox1->SelectedIndex]) + ".txt");
-					writeFile->WriteLine(dateTimePicker1->Value.ToString() + ";" + Convert::ToString(period));
-					writeFile->Close();
+					//StreamWriter^ writeFile = gcnew StreamWriter(Convert::ToString(listBox1->Items[listBox1->SelectedIndex]) + ".txt");
+					//writeFile->WriteLine(dateTimePicker1->Value.ToString() + ";" + Convert::ToString(period));
+					//writeFile->Close();
 				}
 				else
-				{
+				{*/
 					String^ ip = Convert::ToString(listBox1->Items[listBox1->SelectedIndex]);
-					array<String^>^ readStr = File::ReadAllLines(Convert::ToString(listBox1->Items[listBox1->SelectedIndex]) + ".txt");
+					array<String^>^ readStr;
+					if(File::Exists(Convert::ToString(listBox1->Items[listBox1->SelectedIndex]) + ".txt") == true)
+						readStr = File::ReadAllLines(Convert::ToString(listBox1->Items[listBox1->SelectedIndex]) + ".txt");
+					
 					bool needWrite = true;
 					DateTime^ nowTime = DateTime::Now;
 					if (nowTime->CompareTo(dateTimePicker1->Value) < 0)
 					{
-						for (int i = 0; i < readStr->Length; i++)
+						if(readStr == nullptr)
+						{
+							StreamWriter^ writeFile = gcnew StreamWriter(Convert::ToString(listBox1->Items[listBox1->SelectedIndex]) + ".txt");
+							writeFile->WriteLine(dateTimePicker1->Value.ToString() + ";" + Convert::ToString(period));
+							writeFile->Close();
+							listBox1_SelectedIndexChanged((System::Object^)listBox1, nullptr);
+							return;
+						}
+						for (int i = 0; (i < readStr->Length); i++)
 						{
 							if (readStr[i] != "")
 							{
@@ -104,7 +115,11 @@ namespace Server
 							listBox1_SelectedIndexChanged((System::Object^)listBox1, nullptr);
 						}
 					}
-				}
+					else
+					{
+						MessageBox::Show("Ќевозможно сохранить устаревшее расписание");
+					}
+				//}
 			}
 		}
 	}

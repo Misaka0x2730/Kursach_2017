@@ -1,0 +1,20 @@
+﻿Сборка начата 17.04.2017 13:09:47.
+     1>Проект "C:\Kursach_2017\Server\Server.vcxproj" в узле 2 (целевые объекты Build).
+       Файл проекта содержит ToolsVersion="14.0". Возможно, этот набор инструментов неизвестен или отсутствует (в этом случае проблему можно устранить, установив подходящую версию MSBuild), либо для данной сборки определено конкретное значение ToolsVersion в параметрах политики. Проект обрабатывается как имеющий ToolsVersion="4.0". Дополнительные сведения см. по ссылке http://go.microsoft.com/fwlink/?LinkId=291333.
+     1>Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Kursach_2017\Server\x64\Debug\Server.exe" /INCREMENTAL /NOLOGO /ASSEMBLYRESOURCE:x64\Debug\Client.ServerForm.resources /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Kursach_2017\Server\x64\Debug\Server.pdb" /ASSEMBLYDEBUG /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"main" /DYNAMICBASE /FIXED:NO /NXCOMPAT /MACHINE:X64 x64\Debug\app.res
+         x64\Debug\AssemblyInfo.obj
+         x64\Debug\DataInThread.obj
+         x64\Debug\MessageAPI.obj
+         x64\Debug\ScanThread.obj
+         x64\Debug\Server.obj
+         x64\Debug\ServerForm.obj
+         x64\Debug\stdafx.obj
+         x64\Debug\ThreadsWork.obj
+         "x64\Debug\.NETFramework,Version=v4.5.2.AssemblyAttributes.obj"
+         Server.vcxproj -> C:\Kursach_2017\Server\x64\Debug\Server.exe
+     1>Построение проекта "C:\Kursach_2017\Server\Server.vcxproj" завершено (целевые объекты Build).
+
+Сборка успешно завершена.
+
+Затраченное время: 00:00:00.45
