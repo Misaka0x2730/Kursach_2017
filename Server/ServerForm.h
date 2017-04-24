@@ -96,10 +96,12 @@ namespace Server {
 	private: Schedule^ schedule;
 	private: System::Windows::Forms::Button^  button3;
 	private: System::Windows::Forms::TextBox^  textBox1;
+	private: System::Windows::Forms::Timer^  timer1;
+	private: System::ComponentModel::IContainer^  components;
 			 /// <summary>
 		/// Обязательная переменная конструктора.
 		/// </summary>
-		System::ComponentModel::Container ^components;
+
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -108,6 +110,7 @@ namespace Server {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			this->components = (gcnew System::ComponentModel::Container());
 			this->listBox1 = (gcnew System::Windows::Forms::ListBox());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->groupBox1 = (gcnew System::Windows::Forms::GroupBox());
@@ -121,6 +124,7 @@ namespace Server {
 			this->label4 = (gcnew System::Windows::Forms::Label());
 			this->dateTimePicker1 = (gcnew System::Windows::Forms::DateTimePicker());
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
+			this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
 			this->groupBox1->SuspendLayout();
 			this->groupBox2->SuspendLayout();
 			this->SuspendLayout();
@@ -251,6 +255,10 @@ namespace Server {
 			this->textBox1->Size = System::Drawing::Size(206, 220);
 			this->textBox1->TabIndex = 4;
 			// 
+			// timer1
+			// 
+			this->timer1->Tick += gcnew System::EventHandler(this, &ClientForm::timer1_Tick);
+			// 
 			// ClientForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -280,5 +288,6 @@ private: System::Void ClientForm_Closing(System::Object^  sender, System::Window
 private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e);
 private: System::Void button3_Click(System::Object^  sender, System::EventArgs^  e);
 private: System::Void listBox1_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e);
+private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e);
 };
 }

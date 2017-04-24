@@ -122,11 +122,6 @@ namespace Server
 					String^ message = String::Empty;
 					if ((GetSchedule()->state == true) && (GetSchedule()->ip == ip))
 					{
-						/*message = schedule->dateTime->ToString();
-						message += DELIMITER_SYMBOL;
-						message += schedule->period.ToString();
-						MessageWork::SendMessage(stream, MessageWork::LinkerMessage(CMD::SendSchedule, message));
-						schedule->state = false;*/
 						DateTime^ nowTime = DateTime::Now;
 						bool needWrite = true;
 						if (File::Exists(ip + ".txt") == true)
@@ -156,14 +151,17 @@ namespace Server
 									}
 								}
 							}
+							schedule->state = false;
 							if (message != String::Empty)
 							{
 								MessageWork::SendMessage(stream, MessageWork::LinkerMessage(CMD::SendSchedule, message));
-								schedule->state = false;
+								//schedule->state = false;
+								File::Delete(ip + ".txt");
 							}
-							/*StreamWriter^ writeFile = gcnew StreamWriter(Convert::ToString(listBox1->Items[listBox1->SelectedIndex]) + ".txt");
-							writeFile->WriteLine(dateTimePicker1->Value.ToString() + ";" + Convert::ToString(period));
-							writeFile->Close();*/
+							else
+							{
+
+							}
 						}
 					}
 					else
